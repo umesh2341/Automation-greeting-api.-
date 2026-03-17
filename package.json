@@ -1,0 +1,23 @@
+{
+  "name": "n8n-in-raw",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umesh2341/Automation-greeting-api.-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/umesh2341/Automation-greeting-api.-/issues"
+  },
+  "homepage": "https://github.com/umesh2341/Automation-greeting-api.-#readme",
+  "description": "",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.99.2"
+  }
+}
