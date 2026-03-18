@@ -19,5 +19,4 @@ async function SerperAI(msg) {
         return null;
     }
 }
- SerperAI("what is spaceX  currently working on").then(data=>console.log(data)).catch(err=>console.log(err))
- console.log("KEY:", process.env.SERPER_API_KEY);
+export default SerperAI;
