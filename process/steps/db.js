@@ -5,7 +5,7 @@ const {DataBase}=services;
 export const dbService={
     async saveUsers(name,email){
         const {data,error}=await DataBase.from('users')
-        .upsert([{ name, email }], { onConflict: 'email' })
+        .upsert([{ name, email }], { onConflict: 'email' }).select();
         if(error) throw error;
         return data;
     },
@@ -23,5 +23,24 @@ export const dbService={
         .limit(10);
         if(error) throw error;
         return data;
+    },
+    async SignIn(email,password){
+        const {data,error}=await DataBase.auth.signUp({
+            email,
+            password,
+
+        });
+        if(error) throw error;
+        return data.user
+    },
+    async LogIn(email,password){
+        const {data,error}=await DataBase.login({
+            email,
+            password,
+
+        });
+        if(error) throw error;
+        return data
     }
+
 }
