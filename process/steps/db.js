@@ -3,9 +3,9 @@ import services from '../config.js'
 const {DataBase}=services;
 
 export const dbService={
-    async saveUsers(name,email){
+    async saveUsers(id,name,email){
         const {data,error}=await DataBase.from('users')
-        .upsert([{ name, email }], { onConflict: 'email' }).select();
+        .upsert([{ id,name, email }], { onConflict: 'email' }).select();
         if(error) throw error;
         return data;
     },
@@ -38,8 +38,7 @@ export const dbService={
     });
         if(error) throw error;
         return data
+        console.log(data)
     }
 
 }
-const datas=await dbService.LogIn("bjmiop139@gmail.com","1234567")
-console.log(datas )

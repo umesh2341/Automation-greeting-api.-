@@ -15,10 +15,11 @@ app.get('/',async(req,res)=>{
 app.post("/signup",async(req,res)=>{
     const {email,password,name}=req.body;
     try{
-        const data=dbService.SignIn(email,password)
-        const user=data.user
+        const data=await dbService.SignIn(email,password)
+        const user=data.user.id;
 
-        await dbService.saveUsers(name,email);
+
+        await dbService.saveUsers(user,name,email);
         
     }catch(Err){
         res.status(400).json({error:Err.message})
@@ -43,18 +44,19 @@ app.post('/login',async(req,res)=>{
 app.post('/chat',auth,async(req,res)=>{
     const {message}=req.body;
     try{
-        const data=await dbService.addMessage(req.user.id)
+        const data=await dbService.addMessage(req.user.id,message)
         res.json(data);
 
     }catch(err){
         res.status(400).json({error:err.message});
     }
 });
-app.get("/chat",auth,async(req,res)=>{
+app.get('/chat',auth,async(req,res)=>{
     try
     {
         const data=await dbService.getHistory(req.user.id);
         res.json(data);
+        res.send("hello there")
     }catch(Err){
         res.status(400).json({
             error:err.message
