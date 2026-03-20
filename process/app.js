@@ -19,9 +19,7 @@ app.post("/signup",async(req,res)=>{
         const user=data.user
 
         await dbService.saveUsers(name,email);
-        res.json({
-            message:"sign up successful"
-        })
+        
     }catch(Err){
         res.status(400).json({error:Err.message})
     }
@@ -42,7 +40,27 @@ app.post('/login',async(req,res)=>{
     }
 
 })
+app.post('/chat',auth,async(req,res)=>{
+    const {message}=req.body;
+    try{
+        const data=await dbService.addMessage(req.user.id)
+        res.json(data);
 
+    }catch(err){
+        res.status(400).json({error:err.message});
+    }
+});
+app.get("/chat",auth,async(req,res)=>{
+    try
+    {
+        const data=await dbService.getHistory(req.user.id);
+        res.json(data);
+    }catch(Err){
+        res.status(400).json({
+            error:err.message
+        })
+    }
+})
 const PORT=process.env.PORT || 5000;
 app.listen(PORT,()=>{
     console.log("Server is listining on port", PORT)

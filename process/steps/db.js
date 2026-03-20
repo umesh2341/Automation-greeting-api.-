@@ -10,9 +10,9 @@ export const dbService={
         return data;
     },
 
-    async addMessage(uid,message){
+    async addMessage(user_id,message){
         const {data,error}=await DataBase.from('chats')
-        .insert([{user_id:uid,message}])
+        .insert([{user_id,message}]).select()
         if(error) throw error;
         return data;
     },
@@ -27,20 +27,19 @@ export const dbService={
     async SignIn(email,password){
         const {data,error}=await DataBase.auth.signUp({
             email,
-            password,
-
-        });
+            password});
         if(error) throw error;
-        return data.user
+        return data;
     },
     async LogIn(email,password){
-        const {data,error}=await DataBase.login({
+        const {data,error}=await DataBase.auth.signInWithPassword({
             email,
             password,
-
-        });
+    });
         if(error) throw error;
         return data
     }
 
 }
+const datas=await dbService.LogIn("bjmiop139@gmail.com","1234567")
+console.log(datas )
