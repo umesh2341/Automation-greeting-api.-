@@ -48,9 +48,20 @@ app.post('/login',async(req,res)=>{
 app.post('/chat',auth,async(req,res)=>{
     const {role,message}=req.body;
     try{
-        const data=await dbService.addMessage(req.user.id,role,message)
-        const airesponse=await Aifunction()
-        res.json(data);
+        const datau=await dbService.addMessage(req.user.id,role,message)
+        const check=await dbService.getHistory(req.user.id)
+        const getName=await dbService.getUserName(req.user.id)
+        let airesponse;
+        if(check.length==0){
+             airesponse=await Aifunction(getName)
+        }else{
+             airesponse=await Aifunction(message)
+        }
+        const datac=await dbService.addMessage(req.user.id,"AI",airesponse)
+
+        res.json({dataUser:datau,
+            dataAI:datac
+        });
 
     }catch(err){
         res.status(400).json({error:err.message});
@@ -60,8 +71,9 @@ app.get('/chat',auth,async(req,res)=>{
     try
     {
         const data=await dbService.getHistory(req.user.id);
-        res.json(data);
-        res.send("hello there")
+        res.json(data)
+        
+        
     }catch(Err){
         res.status(400).json({
             error:err.message

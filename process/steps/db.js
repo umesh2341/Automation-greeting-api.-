@@ -42,10 +42,9 @@ export const dbService={
     async getUserName(id){
           const {data,error}=await DataBase.from('users').select('name').eq('id',id)
           if(error) throw error;
-          return data;
+          return data[0].name;
     }
-
 }
 
 const datas=await dbService.getUserName("5fa32528-3e99-4798-a3c8-1c85aeade940")
-console.log(datas)
+console.log(datas[0].name)
