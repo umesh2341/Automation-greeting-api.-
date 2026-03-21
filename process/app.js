@@ -4,6 +4,7 @@ import cors from "cors"
 import  {dbService} from './steps/db.js'
 import dotenv from "dotenv"
 import {auth} from './steps/auth.js'
+import { Aifunction } from './steps/google.js';
 const {geminiAI,DataBase}=services;
 dotenv.config();
 const app=express();
@@ -20,6 +21,9 @@ app.post("/signup",async(req,res)=>{
 
 
         await dbService.saveUsers(user,name,email);
+        res.json({
+            message:"signin successful"
+        })
         
     }catch(Err){
         res.status(400).json({error:Err.message})
@@ -42,9 +46,10 @@ app.post('/login',async(req,res)=>{
 
 })
 app.post('/chat',auth,async(req,res)=>{
-    const {message}=req.body;
+    const {role,message}=req.body;
     try{
-        const data=await dbService.addMessage(req.user.id,message)
+        const data=await dbService.addMessage(req.user.id,role,message)
+        const airesponse=await Aifunction()
         res.json(data);
 
     }catch(err){

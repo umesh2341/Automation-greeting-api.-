@@ -1,5 +1,4 @@
 import services from '../config.js'
-
 const {DataBase}=services;
 
 export const dbService={
@@ -10,9 +9,9 @@ export const dbService={
         return data;
     },
 
-    async addMessage(user_id,message){
+    async addMessage(user_id,role,message){
         const {data,error}=await DataBase.from('chats')
-        .insert([{user_id,message}]).select()
+        .insert([{user_id,role,message}]).select()
         if(error) throw error;
         return data;
     },
@@ -39,6 +38,14 @@ export const dbService={
         if(error) throw error;
         return data
         console.log(data)
+    },
+    async getUserName(id){
+          const {data,error}=await DataBase.from('users').select('name').eq('id',id)
+          if(error) throw error;
+          return data;
     }
 
 }
+
+const datas=await dbService.getUserName("5fa32528-3e99-4798-a3c8-1c85aeade940")
+console.log(datas)

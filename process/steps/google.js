@@ -2,7 +2,7 @@ import services from '../config.js';
 import SerperAI from './search.js';
 
 const {geminiAI}=services;
-const Aifunction={
+export const Aifunction={
     async genReply(message){
          try{
             const data= await SerperAI(message);
